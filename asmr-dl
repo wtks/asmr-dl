@@ -2,6 +2,11 @@
 
 set -eu
 
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 [Youtube URL]"
+  exit 1
+fi
+
 youtube_url=$1
 
 # video情報取得
