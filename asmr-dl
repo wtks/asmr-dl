@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -eu
+
+youtube_url=$1
+
+# video情報取得
+video_info=$(youtube-dl -j "$youtube_url")
+filename=$(echo "$video_info" | jq -r "._filename" | sed 's/\.[^\.]*$//')
+
+# mp3ダウンロード
+youtube-dl --write-thumbnail --embed-thumbnail -x --audio-quality 0 --audio-format mp3 "$youtube_url"
+
+# サムネイル画像削除
+rm "$filename.jpg"
+
+# mp3 tag編集
+title=$(echo "$video_info" | jq -r ".title")
+album=$(echo "$video_info" | jq -r ".uploader")
+
+eyeD3 --non-std-genres -G "ASMR" -a "$album" -b "$album" -A "$album ASMR" -t "$title" -c "$youtube_url" "$filename.mp3"
