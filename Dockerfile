@@ -14,4 +14,5 @@ RUN pip install -r /tmp/requirements.txt
 COPY asmr-dl /usr/local/bin
 
 WORKDIR /downloads
+VOLUME /downloads
 ENTRYPOINT ["asmr-dl"]
